@@ -23,9 +23,10 @@ if not os.path.exists('./samples'):
 
 
 Fs = 44100.0  # sampling rate wav
-FILE, BPM, sample_path = 'crazy.wav', 112.0, 'samples/crazy_%03d.wav' # crazy
-#FILE, BPM, sample_path = 'maybe.wav', 120.0, 'samples/maybe_%03d.wav' # call me maybe
+#FILE, BPM, sample_path = 'crazy.wav', 112.0, 'samples/crazy_%03d.wav' # crazy
+FILE, BPM, sample_path = 'maybe.wav', 120.0, 'samples/maybe_%03d.wav' # call me maybe
 size = int(Fs*60/BPM)
+NBSHORTCUT = 30
 
 rate,data=read(FILE)
 y=data[:,0]
@@ -103,7 +104,7 @@ adj = np.zeros((nbsamples, nbsamples))
 # link every sample to its following one
 for i in xrange(nbsamples-1) : adj[i, i+1] = 1
 SC = []
-for i in xrange(10) :
+for i in xrange(NBSHORTCUT) :
     p = np.where(corrMat == np.min(corrMat))
     print p[::-1]
     SC.append(list(p[::-1]))
