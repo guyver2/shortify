@@ -1,6 +1,6 @@
 """
 # Makes a song shorter by analyzing similarities to find shortcuts
-# mostly triing to recreate this : 
+# mostly trying to recreate this : 
 # http://labs.echonest.com/Uploader/index.html?trid=TRWQFRH1430BC48B32
 #
 # Copyright (c) 2015 Antoine Letouzey antoine.letouzey@gmail.com
@@ -32,7 +32,7 @@ rate,data=read(FILE)
 y=data[:,0]
 lungime=len(y)
 timp=len(y)/Fs
-print timp
+#print timp
 t=linspace(0,timp,len(y))
 #figure()
 #plot(t,y)
@@ -51,7 +51,7 @@ t=linspace(0,timp,len(y))
 
  # number of samples per beat
 nbsamples = int(len(y)/size)
-print nbsamples
+#print nbsamples
 
 #save samples if needed
 if not os.path.exists(sample_path%1):
@@ -82,7 +82,7 @@ corrMat[corrMat == 0] = cmax
 
 cmin = np.min(corrMat)
 
-print cmin, cmax
+#print cmin, cmax
 figure()
 pcolor(corrMat)
 pylab.colorbar()
@@ -106,7 +106,7 @@ for i in xrange(nbsamples-1) : adj[i, i+1] = 1
 SC = []
 for i in xrange(NBSHORTCUT) :
     p = np.where(corrMat == np.min(corrMat))
-    print p[::-1]
+    print [ int(e) for e in p[::-1]]
     SC.append(list(p[::-1]))
     adj[p[0], p[1]] = 1
     adj[p[1], p[0]] = 1
@@ -124,7 +124,7 @@ for i in xrange(9):
 
 
 
-print "PATH"
+print "\nPATH"
 graph = Graph(adj)
 command = "sox "
 prev = -1
@@ -137,6 +137,7 @@ for i, n in enumerate(graph.path(0, nbsamples-1)):
 	prev = n
 command += "short.wav"
 
+print "\nHere is the full command you should type in your terminal to get the shortened version of the song :"
 print command
 
 
@@ -146,7 +147,7 @@ print command
 corrMat[0,0] = cmin
 
 figure()
-print np.min(corrMat), np.max(corrMat)
+#print np.min(corrMat), np.max(corrMat)
 pcolor(corrMat)
 pylab.colorbar()
 pylab.axis('equal')
